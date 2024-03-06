@@ -69,6 +69,8 @@ sudo docker version
 sudo swapoff -a
 sudo kubeadm init --config=config/kubeadm-config.yaml
 
+echo "The kubeadm is initalised, if it gets here without an error above then that means that the problem is further down"
+
 # result will be like:  kubeadm join 155.98.36.111:6443 --token i0peso.pzk3vriw1iz06ruj --discovery-token-ca-cert-hash sha256:19c5fdee6189106f9cb5b622872fe4ac378f275a9d2d2b6de936848215847b98
 
 # allow sN to log in with shared key
