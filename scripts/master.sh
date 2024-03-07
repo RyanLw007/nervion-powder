@@ -58,7 +58,7 @@ sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 # learn from this: https://blog.csdn.net/yan234280533/article/details/75136630
 # more info should see: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
 sudo apt-get update
-sudo apt-get -y install kubelet=1.25.5-00 kubeadm=1.25.1-1.1 kubectl=1.25.1-1.1 kubernetes-cni golang-go jq
+sudo apt-get -y install kubelet=1.25.5-1.1 kubeadm=1.25.5-1.1 kubectl=1.25.5-1.1 kubernetes-cni golang-go jq
 
 sudo docker version
 
