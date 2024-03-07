@@ -28,8 +28,8 @@ echo "export KUBECONFIG=${KUBECONFIG}" > $HOME/.profile
 # Kubernetes
 sudo apt-get install -y apt-transport-https ca-certificates curl gpg
 sudo mkdir -p -m 755 /etc/apt/keyrings
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.25/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.25/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.21/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.21/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 # Docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository \
@@ -57,8 +57,9 @@ sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 
 # learn from this: https://blog.csdn.net/yan234280533/article/details/75136630
 # more info should see: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
-sudo apt-get update
-sudo apt-get -y install kubelet=1.25.5-1.1 kubeadm=1.25.5-1.1 kubectl=1.25.5-1.1 kubernetes-cni golang-go jq
+#sudo apt-get update
+#sudo apt-get -y install kubelet=1.25.5-1.1 kubeadm=1.25.5-1.1 kubectl=1.25.5-1.1 kubernetes-cni golang-go jq
+sudo apt-get -y install kubelet=1.21.3-00 kubeadm=1.21.3-00 kubectl=1.21.3-00 kubernetes-cni golang-go jq
 
 sudo docker version
 
@@ -67,7 +68,7 @@ sudo docker version
 #sudo systemctl restart docker
 
 sudo swapoff -a
-sudo kubeadm config migrate --old-config /local/repository/config/kubeadm-config.yaml --new-config /local/repository/config/kubeadm-config.yaml
+#sudo kubeadm config migrate --old-config /local/repository/config/kubeadm-config.yaml --new-config /local/repository/config/kubeadm-config.yaml
 sudo kubeadm init --config=config/kubeadm-config.yaml
 
 echo "The kubeadm is initalised, if it gets here without an error above then that means that the problem is further down"
