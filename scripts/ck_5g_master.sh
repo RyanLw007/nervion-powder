@@ -28,8 +28,8 @@ echo "export KUBECONFIG=${KUBECONFIG}" > $HOME/.profile
 # Kubernetes
 sudo apt-get install -y apt-transport-https ca-certificates curl gpg
 sudo mkdir -p -m 755 /etc/apt/keyrings
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.26/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.26/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 # Docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo add-apt-repository \
@@ -59,10 +59,11 @@ sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 # learn from this: https://blog.csdn.net/yan234280533/article/details/75136630
 # more info should see: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
 sudo apt-get update
-sudo apt-get -y install kubelet=1.28.1-1.1 kubeadm=1.28.1-1.1 kubectl=1.28.1-1.1 kubernetes-cni golang-go jq
+sudo apt-get -y install kubelet=1.26.1-1.1 kubeadm=1.26.1-1.1 kubectl=1.26.1-1.1 kubernetes-cni golang-go jq
 
 sudo docker version
 sudo swapoff -a
+sudo kubeadm config migrate --old-config /local/repository/config/kubeadm-config.yaml --new-config /local/repository/config/kubeadm-config.yaml
 sudo kubeadm init --config=config/kubeadm-config.yaml
 
 # result will be like:  kubeadm join 155.98.36.111:6443 --token i0peso.pzk3vriw1iz06ruj --discovery-token-ca-cert-hash sha256:19c5fdee6189106f9cb5b622872fe4ac378f275a9d2d2b6de936848215847b98

@@ -67,6 +67,7 @@ sudo docker version
 #sudo systemctl restart docker
 
 sudo swapoff -a
+sudo kubeadm config migrate --old-config /local/repository/config/kubeadm-config.yaml --new-config /local/repository/config/kubeadm-config.yaml
 sudo kubeadm init --config=config/kubeadm-config.yaml
 
 echo "The kubeadm is initalised, if it gets here without an error above then that means that the problem is further down"
