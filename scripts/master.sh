@@ -56,7 +56,7 @@ sudo mkdir -p /opt/cni/bin
 sudo tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.1.1.tgz
 
 wget https://github.com/containerd/containerd/releases/download/v1.6.8/containerd-1.6.8-linux-amd64.tar.gz
-tar Cxzvf /usr/local containerd-1.6.8-linux-amd64.tar.gz
+sudo tar Cxzvf /usr/local containerd-1.6.8-linux-amd64.tar.gz
 
 
 sudo systemctl daemon-reload
