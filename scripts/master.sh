@@ -48,7 +48,7 @@ python-pip automake autoconf libtool indent vim tmux ctags xgrep
 
 # pre-reqs for installing docker
 sudo apt-get -y install \ curl \ gnupg-agent \ software-properties-common
-
+echo "containerd is installed below --------------------------------------------------------------------------------------------------"
 # docker
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
