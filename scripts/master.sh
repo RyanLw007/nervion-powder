@@ -49,7 +49,8 @@ python-pip automake autoconf libtool indent vim tmux ctags xgrep
 echo "containerd is installed below --------------------------------------------------------------------------------------------------"
 # docker
 
-sudo tar Cxzvf /usr/local containerd-1.6.8-linux-amd64.tar.gz
+wget https://github.com/containerd/containerd/releases/download/v1.6.8/containerd-1.6.8-linux-amd64.tar.gz
+tar Cxzvf /usr/local containerd-1.6.8-linux-amd64.tar.gz
 wget https://github.com/opencontainers/runc/releases/download/v1.1.3/runc.amd64
 
 sudo systemctl daemon-reload
@@ -66,8 +67,7 @@ echo " install for containerd finished, -      ---------------------------------
 #sudo apt-get update
 sudo apt-get -y install kubelet=1.25.5-1.1 kubeadm=1.25.5-1.1 kubectl=1.25.5-1.1 kubernetes-cni golang-go jq
 
-sudo docker run hello-world
-sudo docker version
+
 
 # Solving issues with cgroup-drivers
 #echo '{"exec-opts": ["native.cgroupdriver=systemd"]}' | sudo tee /etc/docker/daemon.json
