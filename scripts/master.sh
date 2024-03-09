@@ -58,10 +58,15 @@ sudo tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.1.1.tgz
 wget https://github.com/containerd/containerd/releases/download/v1.6.8/containerd-1.6.8-linux-amd64.tar.gz
 sudo tar Cxzvf /usr/local containerd-1.6.8-linux-amd64.tar.gz
 
+sudo mkdir -p /etc/containerd/
+containerd config default | sudo tee /etc/containerd/config.toml
+
+sudo curl -L https://raw.githubusercontent.com/containerd/containerd/main/containerd.service -o /etc/systemd/system/containerd.service
 
 sudo systemctl daemon-reload
 sudo systemctl enable --now containerd
 
+sudo systemctl status containerd
 
 echo " install for containerd finished, -      ------------------------------------------------------------------------------------------------------"
 # learn from this: https://blog.csdn.net/yan234280533/article/details/75136630
