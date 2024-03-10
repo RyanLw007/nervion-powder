@@ -31,11 +31,13 @@ sudo mkdir -p -m 755 /etc/apt/keyrings
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.25/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.25/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 # Docker
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Update apt lists
 sudo apt-get update
@@ -44,23 +46,35 @@ sudo apt-get update
 sudo apt-get -y install build-essential libffi-dev python python-dev  \
 python-pip automake autoconf libtool indent vim tmux ctags xgrep moreutils
 
-# pre-reqs for installing docker
-sudo apt-get -y install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg-agent \
-    software-properties-common
-
+echo "containerd is installed below --------------------------------------------------------------------------------------------------"
 # docker
-sudo apt-get -y install docker-ce docker-ce-cli containerd.io
+
+wget https://github.com/opencontainers/runc/releases/download/v1.1.3/runc.amd64
+sudo install -m 755 runc.amd64 /usr/local/sbin/runc
+wget https://github.com/containernetworking/plugins/releases/download/v1.1.1/cni-plugins-linux-amd64-v1.1.1.tgz
+sudo mkdir -p /opt/cni/bin
+sudo tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.1.1.tgz
+
+wget https://github.com/containerd/containerd/releases/download/v1.6.8/containerd-1.6.8-linux-amd64.tar.gz
+sudo tar Cxzvf /usr/local containerd-1.6.8-linux-amd64.tar.gz
+
+sudo mkdir -p /etc/containerd/
+containerd config default | sudo tee /etc/containerd/config.toml
+
+sudo curl -L https://raw.githubusercontent.com/containerd/containerd/main/containerd.service -o /etc/systemd/system/containerd.service
+
+sudo systemctl daemon-reload
+sudo systemctl enable --now containerd
+
+sudo systemctl status containerd
+
 
 # learn from this: https://blog.csdn.net/yan234280533/article/details/75136630
 # more info should see: https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/
 sudo apt-get update
 sudo apt-get -y install kubelet=1.25.5-1.1 kubeadm=1.25.1-1.1 kubectl=1.25.1-1.1 kubernetes-cni golang-go jq
 
-sudo docker version
+sudo modprobe br_netfilter
 sudo swapoff -a
 sudo kubeadm config migrate --old-config /local/repository/config/kubeadm-config.yaml --new-config /local/repository/config/kubeadm-config.yaml
 sudo kubeadm init --config=config/kubeadm-config.yaml
