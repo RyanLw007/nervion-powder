@@ -80,6 +80,7 @@ sudo apt-get -y install kubelet=1.25.5-1.1 kubeadm=1.25.5-1.1 kubectl=1.25.5-1.1
 #echo '{"exec-opts": ["native.cgroupdriver=systemd"]}' | sudo tee /etc/docker/daemon.json
 #sudo systemctl restart docker
 
+sudo modprobe br_netfilter
 sudo swapoff -a
 sudo kubeadm config migrate --old-config /local/repository/config/kubeadm-config.yaml --new-config /local/repository/config/kubeadm-config.yaml
 sudo kubeadm init --config=config/kubeadm-config.yaml
